@@ -1,0 +1,17 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="002-create-films-schema.xml" author="Alexandr Sanets">
+        <createTable tableName="FILMS">
+            <column name="FILM_ID" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="FILM_NAME" type="varchar(255)"/>
+            <column name="SHOW_DATE_TIME" type="datetime"/>
+        </createTable>
+        <addAutoIncrement tableName="FILMS" columnName="FILM_ID" columnDataType="bigint(20)"/>
+    </changeSet>
+</databaseChangeLog>

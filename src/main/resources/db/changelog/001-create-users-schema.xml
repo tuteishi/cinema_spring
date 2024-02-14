@@ -1,0 +1,21 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="001-create-users-schema.xml" author="Alexandr Sanets">
+        <createTable tableName="USERS">
+            <column name="USER_ID" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="FIRSTNAME" type="varchar(255)"/>
+            <column name="SURNAME" type="varchar(255)"/>
+            <column name="AGE" type="int(11)"/>
+            <column name="LOGIN" type="varchar(255)"/>
+            <column name="PASSWORD" type="varchar(255)"/>
+            <column name="USER_ROLE" type="varchar(255)"/>
+        </createTable>
+        <addAutoIncrement tableName="USERS" columnName="USER_ID" columnDataType="bigint(20)"/>
+    </changeSet>
+</databaseChangeLog>

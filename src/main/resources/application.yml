@@ -1,0 +1,19 @@
+spring:
+  # datasource config
+  datasource:
+    url: jdbc:mysql://localhost:3307/cinema-spring
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password:
+  # liquibase config
+  liquibase:
+    change-log: classpath:db/changelog/db-changelog-master.xml
+  # jpa config
+  jpa:
+    hibernate:
+      ddl-auto: none
+# api config
+services:
+  external:
+      reqres:
+        url: https://reqres.in/api/users/2
