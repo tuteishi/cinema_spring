@@ -4,7 +4,6 @@ import by.cinema.cinema_web.dto.responses.ErrorResponse;
 import by.cinema.cinema_web.exceptions.FilmNotFoundException;
 import by.cinema.cinema_web.exceptions.TicketNotFoundException;
 import by.cinema.cinema_web.exceptions.UserNotFoundException;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
@@ -26,26 +25,41 @@ public class ExceptionHandlerController {
     private final MessageSource messageSource;
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ErrorResponse handEntityNoFoundException(EntityNotFoundException entityNotFoundException) {
-        log.warn("EXCEPTION: {} | {} ", entityNotFoundException.getClass(), LocalDateTime.now());
+    @ExceptionHandler(UserNotFoundException.class)
+    public ErrorResponse handUserNoFoundException(UserNotFoundException userNotFoundException) {
+        log.warn(EXCEPTION_LOG_PATTERN, userNotFoundException.getClass(), LocalDateTime.now());
         return ErrorResponse.builder()
-                .message(messageSource.getMessage(getKey(entityNotFoundException),
-                        new Object[]{entityNotFoundException.getMessage(),
+                .message(messageSource.getMessage((USER_NOT_FOUND_KEY),
+                        new Object[]{userNotFoundException.getMessage(),
                                 LocalDateTime.now()},
-                        "Entity not found.",
+                        DEFAULT_EXCEPTION_MESSAGE,
                         LocaleContextHolder.getLocale()))
                 .build();
     }
 
-    private String getKey(EntityNotFoundException entityNotFoundException) {
-        if (entityNotFoundException instanceof UserNotFoundException) {
-            return USER_NOT_FOUND_KEY;
-        } else if (entityNotFoundException instanceof FilmNotFoundException) {
-            return FILM_NOT_FOUND_KEY;
-        } else if (entityNotFoundException instanceof TicketNotFoundException) {
-            return TICKET_NOT_FOUND_KEY;
-        }
-        return NOT_FOUND_TYPE_EXCEPTION_MESSAGE;
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(FilmNotFoundException.class)
+    public ErrorResponse handFilmNoFoundException(FilmNotFoundException filmNotFoundException) {
+        log.warn(EXCEPTION_LOG_PATTERN, filmNotFoundException.getClass(), LocalDateTime.now());
+        return ErrorResponse.builder()
+                .message(messageSource.getMessage(FILM_NOT_FOUND_KEY,
+                        new Object[]{filmNotFoundException.getMessage(),
+                                LocalDateTime.now()},
+                        DEFAULT_EXCEPTION_MESSAGE,
+                        LocaleContextHolder.getLocale()))
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(TicketNotFoundException.class)
+    public ErrorResponse handEntityNoFoundException(TicketNotFoundException ticketNotFoundException) {
+        log.warn(EXCEPTION_LOG_PATTERN, ticketNotFoundException.getClass(), LocalDateTime.now());
+        return ErrorResponse.builder()
+                .message(messageSource.getMessage(TICKET_NOT_FOUND_KEY,
+                        new Object[]{ticketNotFoundException.getMessage(),
+                                LocalDateTime.now()},
+                        DEFAULT_EXCEPTION_MESSAGE,
+                        LocaleContextHolder.getLocale()))
+                .build();
     }
 }

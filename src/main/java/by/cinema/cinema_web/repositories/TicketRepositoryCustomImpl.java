@@ -1,10 +1,11 @@
 package by.cinema.cinema_web.repositories;
 
-import by.cinema.cinema_web.dto.requests.CreateTicketRequest;
+import by.cinema.cinema_web.dto.requests.TicketRequest;
 import by.cinema.cinema_web.entities.Ticket;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static by.cinema.cinema_web.entities.QTicket.ticket;
 
@@ -18,21 +19,27 @@ public class TicketRepositoryCustomImpl extends QuerydslRepositorySupport
     }
 
     @Override
-    @Transactional
-    public Long buyTicket(CreateTicketRequest ticketRequest, Long userId) {
-        return jpaQueryFactory.update(ticket)
+    public List<Ticket> getFreeTickets(Long filmId) {
+        return jpaQueryFactory.select(ticket)
+                .where(ticket.film.filmId.eq(filmId))
+                .where(ticket.isSail.eq(false))
+                .fetch();
+    }
+
+    @Override
+    public void buyTicket(TicketRequest ticketRequest, Long userId) {
+        jpaQueryFactory.update(ticket)
                 .where(ticket.ticketId.eq(ticketRequest.getTicketId()))
-                .set(ticket.sail, true)
+                .set(ticket.isSail, true)
                 .set(ticket.user.userId, userId)
                 .execute();
     }
 
     @Override
-    @Transactional
-    public Long returnTicket(CreateTicketRequest ticketRequest) {
-        return jpaQueryFactory.update(ticket)
+    public void returnTicket(TicketRequest ticketRequest) {
+        jpaQueryFactory.update(ticket)
                 .where(ticket.ticketId.eq(ticketRequest.getTicketId()))
-                .set(ticket.sail, false)
+                .set(ticket.isSail, false)
                 .set(ticket.user.userId, (Long) null)
                 .execute();
     }

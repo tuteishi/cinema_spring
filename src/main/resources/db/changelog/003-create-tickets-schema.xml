@@ -10,10 +10,18 @@
                 <constraints primaryKey="true" nullable="false" unique="true"/>
             </column>
             <column name="USER_ID" type="bigint(20)"/>
-            <column name="FILM_ID" type="bigint(20)"/>
-            <column name="NUMBER_OF_SEAT" type="int(11)"/>
-            <column name="COAST" type="int(11)"/>
-            <column name="SAIL" type="bit(1)"/>
+            <column name="FILM_ID" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NUMBER_OF_SEAT" type="int(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="COAST" type="decimal(5,3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="IS_SAIL" type="bit(1)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <addAutoIncrement tableName="TICKETS" columnName="TICKET_ID" columnDataType="bigint(20)"/>
     </changeSet>

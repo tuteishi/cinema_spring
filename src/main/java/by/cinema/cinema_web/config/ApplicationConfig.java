@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
+import static by.cinema.cinema_web.utils.Constants.BASE_NAME;
+import static by.cinema.cinema_web.utils.Constants.DEFAULT_ENCODING;
+
 @Configuration
 public class ApplicationConfig {
 
@@ -17,8 +20,8 @@ public class ApplicationConfig {
     @Bean
     public ReloadableResourceBundleMessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename("classpath:message");
-        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setBasename(BASE_NAME);
+        messageSource.setDefaultEncoding(DEFAULT_ENCODING);
         return messageSource;
     }
 }

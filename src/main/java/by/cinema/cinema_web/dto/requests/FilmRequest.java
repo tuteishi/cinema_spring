@@ -15,9 +15,11 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateFilmRequest {
+public class FilmRequest {
+
     @NotBlank
     private String filmName;
+
     @NotNull
     @Future
     @JsonDeserialize

@@ -12,7 +12,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FilmResponse {
+
     private Long filmId;
+
     private String filmName;
+
     private LocalDateTime showDataTime;
+
+    private String description;
 }

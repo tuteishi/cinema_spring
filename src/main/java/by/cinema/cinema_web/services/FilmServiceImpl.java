@@ -1,9 +1,11 @@
 package by.cinema.cinema_web.services;
 
-import by.cinema.cinema_web.dto.requests.CreateFilmRequest;
+import by.cinema.cinema_web.dto.requests.FilmRequest;
 import by.cinema.cinema_web.dto.responses.FilmResponse;
+import by.cinema.cinema_web.dto.responses.api.Root;
 import by.cinema.cinema_web.entities.Film;
 import by.cinema.cinema_web.exceptions.FilmNotFoundException;
+import by.cinema.cinema_web.feingClients.DescriptionClient;
 import by.cinema.cinema_web.mappers.FilmMapper;
 import by.cinema.cinema_web.repositories.FilmRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +21,17 @@ public class FilmServiceImpl implements FilmService {
     private final FilmRepository filmRepository;
     private final FilmMapper filmMapper;
     private final TicketService ticketService;
+    private final DescriptionClient descriptionClient;
 
     @Override
     @Transactional
-    public FilmResponse creatFilm(CreateFilmRequest filmRequest) {
-        Film film = filmMapper.filmRequestToFilm(filmRequest);
+    public FilmResponse createFilm(FilmRequest filmRequest) {
+        Film film = filmMapper.mapFilmRequestToFilm(filmRequest);
+        Root description = descriptionClient.getDescription();
+        film.setDescription(description.getPosts().get((int) (Math.random() * 25)).getBody());
         filmRepository.save(film);
-        ticketService.createTikets(film);
-        return filmMapper.filmToFilmResponse(film);
+        ticketService.createTickets(film);
+        return filmMapper.mapFilmToFilmResponse(film);
     }
 
     @Override
@@ -34,23 +39,23 @@ public class FilmServiceImpl implements FilmService {
     public FilmResponse getFilmById(Long filmId) {
         Film film = filmRepository.findById(filmId)
                 .orElseThrow(() -> new FilmNotFoundException(filmId.toString()));
-        return filmMapper.filmToFilmResponse(film);
+        return filmMapper.mapFilmToFilmResponse(film);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<FilmResponse> getAllFilms() {
+    public List<FilmResponse> getFilms() {
         List<Film> allFilms = filmRepository.findAll();
-        return filmMapper.filmListToFilmResponseList(allFilms);
+        return filmMapper.mapFilmListToFilmResponseList(allFilms);
     }
 
     @Override
     @Transactional
-    public FilmResponse updateFilm(CreateFilmRequest filmRequest, Long filmId) {
-        Film film = filmMapper.filmRequestToFilm(filmRequest);
+    public FilmResponse updateFilm(FilmRequest filmRequest, Long filmId) {
+        Film film = filmMapper.mapFilmRequestToFilm(filmRequest);
         film.setFilmId(filmId);
         filmRepository.save(film);
-        return filmMapper.filmToFilmResponse(film);
+        return filmMapper.mapFilmToFilmResponse(film);
     }
 
     @Override

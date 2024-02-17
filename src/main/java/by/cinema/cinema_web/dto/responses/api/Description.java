@@ -9,13 +9,17 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Root {
+public class Description {
 
-    public List<Description> posts;
+    private int id;
 
-    public int total;
+    private String title;
 
-    public int skip;
+    private String body;
 
-    public int limit;
+    private int userId;
+
+    private List<String> tags;
+
+    private int reactions;
 }

@@ -11,9 +11,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserResponse {
+
     private Long userId;
+
     private String firstname;
+
     private String surname;
+
     private Integer age;
+
     private UserRole userRole;
 }

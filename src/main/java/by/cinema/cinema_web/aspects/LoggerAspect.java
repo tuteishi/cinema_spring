@@ -11,21 +11,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import static by.cinema.cinema_web.utils.Constants.LOG_REQUEST_PATTERN;
+import static by.cinema.cinema_web.utils.Constants.LOG_RESPONSE_PATTERN;
+
 @Component
 @Aspect
 @Slf4j
 public class LoggerAspect {
-    private static final String LOG_REQUEST_PATTERN = "HTTP Method - {} | Controller Method - {} | URL - {}";
-    private static final String LOG_RESPONSE_PATTERN = "HTTP Method - {} | Controller Method - {} | URL - {} | Response - {}";
 
     @Pointcut("execution(* by.cinema.cinema_web.controllers..*(..))")
     public void pointCut() {
-    }
-
-    private static HttpServletRequest getHttpServletRequest() {
-        HttpServletRequest request =
-                ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        return request;
     }
 
     @Before("pointCut()")
@@ -45,5 +40,9 @@ public class LoggerAspect {
                 joinPoint.getSignature().toShortString(),
                 request.getRequestURI(),
                 response);
+    }
+
+    private HttpServletRequest getHttpServletRequest() {
+        return ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
     }
 }

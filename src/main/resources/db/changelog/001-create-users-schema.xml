@@ -9,12 +9,22 @@
             <column name="USER_ID" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false" unique="true"/>
             </column>
-            <column name="FIRSTNAME" type="varchar(255)"/>
-            <column name="SURNAME" type="varchar(255)"/>
+            <column name="FIRSTNAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SURNAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
             <column name="AGE" type="int(11)"/>
-            <column name="LOGIN" type="varchar(255)"/>
-            <column name="PASSWORD" type="varchar(255)"/>
-            <column name="USER_ROLE" type="varchar(255)"/>
+            <column name="LOGIN" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PASSWORD" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USER_ROLE" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <addAutoIncrement tableName="USERS" columnName="USER_ID" columnDataType="bigint(20)"/>
     </changeSet>

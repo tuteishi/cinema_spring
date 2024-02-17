@@ -9,8 +9,13 @@
             <column name="FILM_ID" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false" unique="true"/>
             </column>
-            <column name="FILM_NAME" type="varchar(255)"/>
-            <column name="SHOW_DATE_TIME" type="datetime"/>
+            <column name="FILM_NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SHOW_DATE_TIME" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESCRIPTION" type="varchar(3000)"/>
         </createTable>
         <addAutoIncrement tableName="FILMS" columnName="FILM_ID" columnDataType="bigint(20)"/>
     </changeSet>

@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SailTicketResponse {
+
     private Long ticketId;
-    private boolean sail;
+
+    private boolean isSail;
 }

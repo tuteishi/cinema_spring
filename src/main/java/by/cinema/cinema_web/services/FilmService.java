@@ -1,18 +1,18 @@
 package by.cinema.cinema_web.services;
 
-import by.cinema.cinema_web.dto.requests.CreateFilmRequest;
+import by.cinema.cinema_web.dto.requests.FilmRequest;
 import by.cinema.cinema_web.dto.responses.FilmResponse;
 
 import java.util.List;
 
 public interface FilmService {
-    FilmResponse creatFilm(CreateFilmRequest filmRequest);
+    FilmResponse createFilm(FilmRequest filmRequest);
 
     FilmResponse getFilmById(Long filmId);
 
-    List<FilmResponse> getAllFilms();
+    List<FilmResponse> getFilms();
 
-    FilmResponse updateFilm(CreateFilmRequest filmRequest, Long filmId);
+    FilmResponse updateFilm(FilmRequest filmRequest, Long filmId);
 
     void deleteFilm(Long filmId);
 }

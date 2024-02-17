@@ -15,5 +15,5 @@ spring:
 # api config
 services:
   external:
-      reqres:
-        url: https://reqres.in/api/users/2
+    dummy:
+      url: https://dummyjson.com/posts

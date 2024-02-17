@@ -15,16 +15,21 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(schema ="public", name = "FILMS")
+@Table(schema = "public", name = "FILMS")
 public class Film {
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "FILM_ID")
     private Long filmId;
+
     @Column(name = "FILM_NAME", nullable = false)
     private String filmName;
+
     @Column(name = "SHOW_DATE_TIME", nullable = false)
     private LocalDateTime showDataTime;
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "film", orphanRemoval = true)
-//    List<Ticket> tickets;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
+
 }

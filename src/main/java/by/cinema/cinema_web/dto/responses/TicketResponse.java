@@ -7,15 +7,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class TicketResponse {
+
     private Long ticketId;
+
     private User user;
+
     private Film film;
+
     private Integer numberOfSeat;
-    private Integer coast;
-    private boolean sail;
+
+    private BigDecimal coast;
+
+    private boolean isSail;
 }

@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Data
@@ -15,20 +17,26 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(schema = "public", name = "TICKETS")
 public class Ticket {
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "TICKET_ID")
     private Long ticketId;
-    @ManyToOne()
+
+    @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;
-    @ManyToOne()
+
+    @ManyToOne
     @JoinColumn(name = "FILM_ID", nullable = false)
     private Film film;
+
     @Column(name = "NUMBER_OF_SEAT", nullable = false)
     private Integer numberOfSeat;
+
     @Column(name = "COAST", nullable = false)
-    private Integer coast;
-    @Column(name = "SAIL")
-    private boolean sail;
+    private BigDecimal coast;
+
+    @Column(name = "IS_SAIL")
+    private boolean isSail;
 }

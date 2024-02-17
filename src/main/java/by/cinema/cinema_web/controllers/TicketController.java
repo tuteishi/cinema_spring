@@ -1,10 +1,11 @@
 package by.cinema.cinema_web.controllers;
 
-import by.cinema.cinema_web.dto.requests.CreateTicketRequest;
+import by.cinema.cinema_web.dto.requests.TicketRequest;
 import by.cinema.cinema_web.dto.responses.SailTicketResponse;
 import by.cinema.cinema_web.dto.responses.TicketResponse;
 import by.cinema.cinema_web.services.TicketService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,40 +19,40 @@ public class TicketController {
 
     private final TicketService ticketService;
 
-    @PostMapping("buyTicket/{userId}")
+    @PostMapping("ticket/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public SailTicketResponse buyTicket(@PathVariable Long userId,
-                                        @RequestBody @Valid CreateTicketRequest ticketRequest) {
+    public SailTicketResponse buyTicket(@PathVariable @NotNull Long userId,
+                                        @RequestBody @Valid TicketRequest ticketRequest) {
         return ticketService.buyTicket(ticketRequest, userId);
     }
 
-    @PostMapping("returnTicket")
+    @PostMapping("ticket")
     @ResponseStatus(HttpStatus.OK)
-    public SailTicketResponse returnTicket(@RequestBody @Valid CreateTicketRequest ticketRequest) {
+    public SailTicketResponse returnTicket(@RequestBody @Valid TicketRequest ticketRequest) {
         return ticketService.returnTicket(ticketRequest);
     }
 
     @GetMapping("ticket/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public TicketResponse getTicketById(@PathVariable Long id) {
+    public TicketResponse getTicketById(@PathVariable @NotNull Long id) {
         return ticketService.getTicketById(id);
     }
 
-    @GetMapping("freeTickets/{filmId}")
+    @GetMapping("free-tickets/{filmId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<TicketResponse> getFreeTickets(@PathVariable Long filmId) {
+    public List<TicketResponse> getFreeTickets(@PathVariable @NotNull Long filmId) {
         return ticketService.getFreeTickets(filmId);
     }
 
-    @GetMapping("userTickets/{userId}")
+    @GetMapping("user-tickets/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<TicketResponse> getUserTickets(@PathVariable Long userId) {
+    public List<TicketResponse> getUserTickets(@PathVariable @NotNull Long userId) {
         return ticketService.getUserTickets(userId);
     }
 
-    @GetMapping("allTickets")
+    @GetMapping("tickets")
     @ResponseStatus(HttpStatus.OK)
     public List<TicketResponse> getAllTickets() {
-        return ticketService.getAllTickets();
+        return ticketService.getTickets();
     }
 }

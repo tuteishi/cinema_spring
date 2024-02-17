@@ -1,6 +1,6 @@
 package by.cinema.cinema_web.services;
 
-import by.cinema.cinema_web.dto.requests.CreateTicketRequest;
+import by.cinema.cinema_web.dto.requests.TicketRequest;
 import by.cinema.cinema_web.dto.responses.SailTicketResponse;
 import by.cinema.cinema_web.dto.responses.TicketResponse;
 import by.cinema.cinema_web.entities.Film;
@@ -9,12 +9,13 @@ import by.cinema.cinema_web.exceptions.TicketNotFoundException;
 import by.cinema.cinema_web.mappers.CreateTicketMapper;
 import by.cinema.cinema_web.mappers.TicketMapper;
 import by.cinema.cinema_web.repositories.TicketRepository;
-import by.cinema.cinema_web.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -26,10 +27,11 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional
-    public void createTikets(Film film) {
-        for (int count = 1; count <= 10; count++) {
-            ticketRepository.save(createTicketMapper.CreateNewTicket(film, count));
-        }
+    public void createTickets(Film film) {
+        List<Ticket> tickets = new ArrayList<>();
+        IntStream.range(1, 10)
+                .forEach(numberOfSeat -> tickets.add(createTicketMapper.createNewTicket(film, numberOfSeat)));
+        ticketRepository.saveAll(tickets);
     }
 
     @Override
@@ -37,49 +39,47 @@ public class TicketServiceImpl implements TicketService {
     public TicketResponse getTicketById(Long ticketId) {
         Ticket ticket = ticketRepository.findById(ticketId).
                 orElseThrow(() -> new TicketNotFoundException(ticketId.toString()));
-        return ticketMapper.ticketToTicketResponse(ticket);
+        return ticketMapper.mapTicketToTicketResponse(ticket);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<TicketResponse> getAllTickets() {
+    public List<TicketResponse> getTickets() {
         List<Ticket> allTickets = ticketRepository.findAll();
-        return ticketMapper.ticketListToTicketResponseList(allTickets);
+        return ticketMapper.mapTicketListToTicketResponseList(allTickets);
     }
 
     @Override
     @Transactional
     public List<TicketResponse> getFreeTickets(Long filmId) {
-        List<Ticket> freeTickets = ticketRepository.getFreeTicketsByFilmId(filmId);
-        return ticketMapper.ticketListToTicketResponseList(freeTickets);
+        List<Ticket> freeTickets = ticketRepository.getFreeTickets(filmId);
+        return ticketMapper.mapTicketListToTicketResponseList(freeTickets);
     }
 
     @Override
     @Transactional
     public List<TicketResponse> getUserTickets(Long userId) {
-        List<Ticket> userTickets = ticketRepository.getUserTickets(userId);
-        return ticketMapper.ticketListToTicketResponseList(userTickets);
+        List<Ticket> userTickets = ticketRepository.findAllByUser_UserId(userId);
+        return ticketMapper.mapTicketListToTicketResponseList(userTickets);
     }
 
     @Override
     @Transactional
-    public SailTicketResponse buyTicket(CreateTicketRequest ticketRequest, Long userId) {
+    public SailTicketResponse buyTicket(TicketRequest ticketRequest, Long userId) {
         ticketRepository.buyTicket(ticketRequest, userId);
-        SailTicketResponse ticketResponse = SailTicketResponse.builder().
+        return SailTicketResponse.builder().
                 ticketId(ticketRequest.getTicketId())
-                .sail(true)
+                .isSail(true)
                 .build();
-        return ticketResponse;
     }
 
     @Override
     @Transactional
-    public SailTicketResponse returnTicket(CreateTicketRequest ticketRequest) {
+    public SailTicketResponse returnTicket(TicketRequest ticketRequest) {
         ticketRepository.returnTicket(ticketRequest);
-        SailTicketResponse ticketResponse = SailTicketResponse.builder().
+        return SailTicketResponse.builder().
                 ticketId(ticketRequest.getTicketId())
-                .sail(false)
+                .isSail(false)
                 .build();
-        return ticketResponse;
     }
 }

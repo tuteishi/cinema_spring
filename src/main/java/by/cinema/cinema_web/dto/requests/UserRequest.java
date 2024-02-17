@@ -13,18 +13,24 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUserRequest {
+public class UserRequest {
+
     @NotBlank
     private String firstname;
+
     @NotBlank
     private String surname;
+
     @NotNull
     @Positive
     private Integer age;
+
     @NotBlank
     private String login;
+
     @NotBlank
     private String password;
+
     @NotNull
     private UserRole userRole;
 }

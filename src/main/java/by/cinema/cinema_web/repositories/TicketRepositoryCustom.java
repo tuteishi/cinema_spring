@@ -1,8 +1,14 @@
 package by.cinema.cinema_web.repositories;
 
-import by.cinema.cinema_web.dto.requests.CreateTicketRequest;
+import by.cinema.cinema_web.dto.requests.TicketRequest;
+import by.cinema.cinema_web.entities.Ticket;
+
+import java.util.List;
 
 public interface TicketRepositoryCustom {
-    Long buyTicket(CreateTicketRequest ticketRequest, Long userId);
-    Long returnTicket(CreateTicketRequest ticketRequest);
+    List<Ticket> getFreeTickets(Long filmId);
+
+    void buyTicket(TicketRequest ticketRequest, Long userId);
+
+    void returnTicket(TicketRequest ticketRequest);
 }
